@@ -1,3 +1,4 @@
+// escribe texto en el chat
 const writeEvent = text => {
     // <ul> element
     const parent = document.querySelector('#events')
@@ -9,6 +10,7 @@ const writeEvent = text => {
     parent.appendChild(el)  
 };
 
+// escribe los puntajes en el scoreboard
 const writeScoreboard = (scores) => {
     const p0 = document.querySelector('#p0');
     const p1 = document.querySelector('#p1');
@@ -17,7 +19,7 @@ const writeScoreboard = (scores) => {
     p1.innerHTML = scores[1];
 }
 
-
+// envia mensaje al chat
 const onFormSubmitted = (e) => {
     e.preventDefault()
 
@@ -28,27 +30,37 @@ const onFormSubmitted = (e) => {
     sock.emit('message', text)
 }
 
+// event listeners para los botones
 const addButtonListeners = () => {
     ['rock', 'paper', 'scissors'].forEach( (id) => {
+
         const button = document.getElementById(id)
+
+    // emisión de socket con el elemento elegido para cada botón
         button.addEventListener('click', () => {
             sock.emit('turn', id)
         })
     })
 }
 
+
 const sock = io();
+
+// impresion de mensajes en chat y resultados en scoreboard ante eventos desde el server
 sock.on('message', text => writeEvent(text))
 sock.on('scores', scores => writeScoreboard(scores))
 
-writeEvent('Welcome to RPS')
+// mensaje de bienvenida
+writeEvent('Bienvenido al piedra, papel o tijera!')
+
 addButtonListeners()
 
+// event listener para el submit del chat
 document
 .querySelector("#chat-form")
 .addEventListener('submit', onFormSubmitted)
 
-
+// event listener para unirse a una partida
 document
 .querySelector('#join')
 .addEventListener('click', () => {

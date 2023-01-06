@@ -12,35 +12,46 @@ const io = socketio(server);
 let waitingPlayer = null;
 let plyrID;
 
-// La logica de cuando un jugador se conecta
 
+// sin jugadores activos
 let playing = false;
+
+// cuando un jugador se conecta
 io.on('connection', (sock) => {
     sock.on('join', (id) => {
+
+    //  si el mismo jugador intenta conectarse dos veces, se retorna
         if (id === plyrID || playing) return;
+    //  Si ya hay un jugador esperando, se une a el y comienza una nueva partida
         if (waitingPlayer) {
             new RpsGame(waitingPlayer, sock);
             playing = true;
             waitingPlayer = null;
-        } else {
+        }
+    //  si no, se pone en espera
+        else {
             waitingPlayer = sock;
             plyrID = id;
-            waitingPlayer.emit('message', 'Waiting for an opponent')
+            waitingPlayer.emit('message', 'Esperando a un oponente...')
         }
     
         console.log('Someone connected')
     
     })
     
+//  al recibirse un mensaje de chat, se reenvia a todos los usuarios
     sock.on('message', text => {
         io.emit('message', text)
     })
 
+//  desconexión de un jugador
     sock.on('disconnect', function(){
-        console.log('Someone disconnected')
+        console.log('Someone disconnected.');
+    //  se avisa al resto
         if(playing) io.emit('message', 'El otro jugador ha abandonado');
+    //  se setea como que no se está jugando y se nulifica la ID del jugador
         playing = false;
-        plyrID = '';
+        plyrID = null;
     });
 })
 
@@ -51,7 +62,7 @@ const clientPath = `${__dirname}/./client`;
 app.use(express.static(clientPath));
 
 
-
+// Error handling
 server.on('error', (err) => {
     console.error('Server error: ', err)
 })
