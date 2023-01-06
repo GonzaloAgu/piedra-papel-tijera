@@ -1,5 +1,9 @@
 // escribe texto en el chat
 const writeEvent = text => {
+
+    // chequeo si hay texto realmente
+    if(!text) return;
+
     // <ul> element
     const parent = document.querySelector('#events')
 
@@ -7,8 +11,16 @@ const writeEvent = text => {
     const el = document.createElement('li')
     el.innerHTML = text
 
-    parent.appendChild(el)  
+    parent.appendChild(el)
+    scrollUpdate()  
 };
+
+
+// actualizar scroll del chat
+let chat = document.querySelector("#events");
+const scrollUpdate = () => {
+    chat.scrollTop = chat.scrollHeight;
+}
 
 // escribe los puntajes en el scoreboard
 const writeScoreboard = (scores) => {

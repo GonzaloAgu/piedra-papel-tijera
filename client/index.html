@@ -11,24 +11,27 @@
     
     <div id="scoreboard">
       <ul>
-        <li style="font-weight: bold; color: blue">Player 1: <p style="display:inline;" id="p0">-</p> points</li>
-        <li style="font-weight: bold; color: rgb(255, 8, 0);">Player 2: <p style="display:inline" id="p1">-</p> points</li>
+        <li style="font-weight: bold; color: blue">Jugador 1: <p style="display:inline;" id="p0">-</p> points</li>
+        <li style="font-weight: bold; color: rgb(255, 8, 0);">Jugador 2: <p style="display:inline" id="p1">-</p> points</li>
       </ul>
     </div>
     
+    <button id="join">Unirse</button>
     <div class="rps-wrapper">
-      <div id="elements-wrapper">
-        <button id="rock">Piedra</button>
-        <button id="paper">Papel</button>
-        <button id="scissors">Tijera</button>
+      <div id="main-game">
+        <div id="elements-wrapper">
+          <button id="rock">Piedra</button>
+          <button id="paper">Papel</button>
+          <button id="scissors">Tijera</button>
+        </div>
       </div>
+      
       <div class="chat-wrapper">
         <ul id="events"></ul>
         <div class="button-wrapper">
         <form id="chat-form">
           <input id="chat" />
-          <button id="say">Enviar</button>
-          <button id="join">Unirse</button>
+          <!--<button id="say">Enviar</button>-->
         </form>
       </div>
       </div>
