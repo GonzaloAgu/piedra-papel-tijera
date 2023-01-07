@@ -1,3 +1,5 @@
+const DELAY_BETWEEN_TURNS = 3000;
+
 class RpsGame {
   constructor(p1, p2) {
     this._players = [p1, p2];
@@ -37,6 +39,13 @@ class RpsGame {
     this._turns[playerIndex] = turn;
     this._sendToPlayer(playerIndex, `Elegiste ${turn.toUpperCase()}.`);
     this._checkGameOver();
+    this._players[playerIndex].emit('change-hand', 0, turn);
+  }
+
+  _disableButtons() {
+    this._players.forEach(p => {
+      p.emit('disable-buttons', DELAY_BETWEEN_TURNS)
+    })
   }
   _checkGameOver() {
     const turns = this._turns;
@@ -44,8 +53,19 @@ class RpsGame {
       this._sendToPlayers(`FIN DEL TURNO!`);
       this._sendToPlayers(`Jugador 1: ${turns[0]}`);
       this._sendToPlayers(`Jugador 2: ${turns[1]}`);
+      // cambio de imagenes al rival
+      this._players[0].emit('change-hand', 1, this._turns[1]);
+      this._players[1].emit('change-hand', 1, this._turns[0]);
+
       this._getGameResults();
       this._turns = [null, null];
+      this._disableButtons();
+      setTimeout(() => {
+        this._players.forEach( p => {
+          p.emit('change-hand', 0, 'idle');
+          p.emit('change-hand', 1, 'idle');
+        })
+      }, DELAY_BETWEEN_TURNS)
     }
   }
 

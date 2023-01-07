@@ -1,4 +1,6 @@
 
+div#preload { display: none; }
+
 body {
   font-family: "Helvetica Neue", sans-serif;
   margin: 0;

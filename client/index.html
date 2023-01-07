@@ -6,10 +6,18 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="prefetch" href="./assets/img/">
   <title>Document</title>
 </head>
 
 <body>
+  <!--Preload of assets-->
+  <div id="preload">
+    <img src=".assets/img/rock.png" width="1" height="1" alt="Image 01" />
+    <img src=".assets/img/scissors.png" width="1" height="1" alt="Image 02" />
+    <img src=".assets/img/paper.png" width="1" height="1" alt="Image 03" />
+ </div>
+
   <navbar>
     <img id="logo" src="./assets/img/rps-draw.png">
     <button id="join">Unirse</button>
@@ -21,19 +29,19 @@
         <div class="player" id="local">
           <h2 class="name">Vos</h2>
           <h1 class="score" id="p0">0</h1>
-          <img class="hand mirror" src="./assets/img/idle.png">
+          <img class="hand mirror" src="./assets/img/idle.png" id="img0">
         </div>
         <div class="player" id="opponent">
           <h2 class="name">Rival</h2>
           <h1 class="score" id="p1">0</h1>
-          <img class="hand" src="./assets/img/idle.png">
+          <img class="hand" src="./assets/img/idle.png" id="img1">
         </div>
       </div>
 
       <div id="elements-wrapper">
-        <button id="rock">Piedra</button>
-        <button id="paper">Papel</button>
-        <button id="scissors">Tijera</button>
+        <button class="element-button" id="rock">Piedra</button>
+        <button class="element-button" id="paper">Papel</button>
+        <button class="element-button" id="scissors">Tijera</button>
       </div>
     </div>
 

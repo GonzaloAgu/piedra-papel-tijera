@@ -65,6 +65,30 @@ const addButtonListeners = () => {
     })
 }
 
+// cambia la imagen de manos
+const changeHandImage = (player, element) => {
+    const img = document.getElementById(`img${player}`);
+    img.src = `./assets/img/${element}.png`;
+}
+
+// desactiva temporalmente los botones para jugar
+const disableButtons = t => {
+    const button = document.getElementsByClassName('element-button');
+    console.log(button)
+
+    Array.from(button).forEach(b => {
+        b.style.backgroundColor = 'gray';
+        b.style.color = 'lightgray'
+        b.style.cursor = 'not-allowed'
+    })
+    setTimeout( () => {
+        Array.from(button).forEach(b => {
+            b.style.backgroundColor = '#00bcd4';
+            b.style.color = 'white'
+            b.style.cursor = 'pointer'
+        })
+    }, t )
+}
 
 const sock = io();
 
@@ -78,6 +102,9 @@ sock.on('second-player', () => {
     secondPlayer = true;
     console.log('Sos el segundo jugador.')
 })
+
+sock.on('change-hand', (player, element) => changeHandImage(player, element))
+sock.on('disable-buttons', (t) => disableButtons(t))
 
 // mensaje de bienvenida
 writeEvent('Bienvenido al piedra, papel o tijera!')
