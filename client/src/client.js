@@ -2,7 +2,7 @@
 const writeEvent = text => {
 
     // chequeo si hay texto realmente
-    if(!text) return;
+    if (!text) return;
 
     // <ul> element
     const parent = document.querySelector('#events')
@@ -12,7 +12,7 @@ const writeEvent = text => {
     el.innerHTML = text
 
     parent.appendChild(el)
-    scrollUpdate()  
+    scrollUpdate()
 };
 
 
@@ -24,9 +24,19 @@ const scrollUpdate = () => {
 
 // escribe los puntajes en el scoreboard
 const writeScoreboard = (scores) => {
-    const p0 = document.querySelector('#p0');
-    const p1 = document.querySelector('#p1');
-    
+    let p0;
+    let p1;
+
+    // en caso de ser el segundo jugador, se invierte la selección del contador de puntos
+    if (secondPlayer) {
+        p0 = document.querySelector('#p1');
+        p1 = document.querySelector('#p0');
+    }
+    else {
+        p0 = document.querySelector('#p0');
+        p1 = document.querySelector('#p1');
+    }
+
     p0.innerHTML = scores[0];
     p1.innerHTML = scores[1];
 }
@@ -44,11 +54,11 @@ const onFormSubmitted = (e) => {
 
 // event listeners para los botones
 const addButtonListeners = () => {
-    ['rock', 'paper', 'scissors'].forEach( (id) => {
+    ['rock', 'paper', 'scissors'].forEach((id) => {
 
         const button = document.getElementById(id)
 
-    // emisión de socket con el elemento elegido para cada botón
+        // emisión de socket con el elemento elegido para cada botón
         button.addEventListener('click', () => {
             sock.emit('turn', id)
         })
@@ -62,20 +72,26 @@ const sock = io();
 sock.on('message', text => writeEvent(text))
 sock.on('scores', scores => writeScoreboard(scores))
 
+// si es el segundo jugador, el sv lo informa (para escribir correctamente el puntaje)
+let secondPlayer = false;
+sock.on('second-player', () => {
+    secondPlayer = true;
+    console.log('Sos el segundo jugador.')
+})
+
 // mensaje de bienvenida
 writeEvent('Bienvenido al piedra, papel o tijera!')
-
 addButtonListeners()
 
 // event listener para el submit del chat
 document
-.querySelector("#chat-form")
-.addEventListener('submit', onFormSubmitted)
+    .querySelector("#chat-form")
+    .addEventListener('submit', onFormSubmitted)
 
 // event listener para unirse a una partida
 document
-.querySelector('#join')
-.addEventListener('click', () => {
-    sock.emit('join', sock.id)
-})
+    .querySelector('#join')
+    .addEventListener('click', () => {
+        sock.emit('join', sock.id)
+    })
 

@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="styles/main.css" />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    
-    <div id="scoreboard">
-      <ul>
-        <li style="font-weight: bold; color: blue">Jugador 1: <p style="display:inline;" id="p0">-</p> points</li>
-        <li style="font-weight: bold; color: rgb(255, 8, 0);">Jugador 2: <p style="display:inline" id="p1">-</p> points</li>
-      </ul>
-    </div>
-    
-    <button id="join">Unirse</button>
-    <div class="rps-wrapper">
-      <div id="main-game">
-        <div id="elements-wrapper">
-          <button id="rock">Piedra</button>
-          <button id="paper">Papel</button>
-          <button id="scissors">Tijera</button>
+
+<head>
+  <link rel="stylesheet" href="styles/main.css" />
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="join">Unirse</button>
+  <div class="rps-wrapper">
+    <div id="main-game">
+      <div id="players-wrapper">
+        <div class="player" id="local">
+          <h2 class="name">Vos</h2>
+          <h1 class="score" id="p0">0</h1>
+        </div>
+        <div class="player" id="opponent">
+          <h2 class="name">Rival</h2>
+          <h1 class="score" id="p1">0</h1>
         </div>
       </div>
-      
-      <div class="chat-wrapper">
-        <ul id="events"></ul>
-        <div class="button-wrapper">
-        <form id="chat-form">
-          <input id="chat" />
-          <!--<button id="say">Enviar</button>-->
-        </form>
-      </div>
+
+      <div id="elements-wrapper">
+        <button id="rock">Piedra</button>
+        <button id="paper">Papel</button>
+        <button id="scissors">Tijera</button>
       </div>
     </div>
-    
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./src/client.js"></script>
-  </body>
+
+    <div class="chat-wrapper">
+      <ul id="events"></ul>
+      <div class="button-wrapper">
+        <form id="chat-form">
+          <input id="chat" />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./src/client.js"></script>
+</body>
+
 </html>

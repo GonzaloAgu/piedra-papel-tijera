@@ -30,6 +30,7 @@ class RpsGame {
     this._players.forEach( (p, idx) =>{
         this._sendToPlayer(idx, `Sos el jugador ${idx + 1}`)
     })
+    this._players[1].emit('second-player', true)
     
   }
   _onTurn(playerIndex, turn) {
